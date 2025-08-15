@@ -1,0 +1,57 @@
+id: sensitive-config-files-disclosure
+
+info:
+  name: Sensitive Config Files Disclosure
+  author: ChatGPT and Prompt by :- wadgamaraldeen :- https://x.com/wadgamaraldeen
+  severity: High
+  description: |
+    Detects publicly exposed configuration files that may contain sensitive information such as API keys, database credentials, and secrets.
+  tags: exposure,config,info-disclosure,sensitive
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/app/config.js"
+      - "{{BaseURL}}/app/config.json"
+      - "{{BaseURL}}/config.js"
+      - "{{BaseURL}}/config.json"
+      - "{{BaseURL}}/app/config"
+      - "{{BaseURL}}/app/configuration"
+      - "{{BaseURL}}/app/env.js"
+      - "{{BaseURL}}/app/env.json"
+      - "{{BaseURL}}/server.js"
+      - "{{BaseURL}}/server.json"
+      - "{{BaseURL}}/configuration.js"
+      - "{{BaseURL}}/configuration.json"
+      - "{{BaseURL}}/app/server.js"
+      - "{{BaseURL}}/app/server.json"
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        words:
+          - "api_key"
+          - "apikey"
+          - "access_token"
+          - "secret"
+          - "password"
+          - "db_host"
+          - "db_user"
+          - "db_password"
+          - "AWS_ACCESS_KEY_ID"
+          - "AWS_SECRET_ACCESS_KEY"
+        condition: or
+
+      - type: word
+        part: header
+        words:
+          - "application/javascript"
+          - "application/json"
+          - "text/javascript"
+          - "text/plain"
+        condition: or
+
