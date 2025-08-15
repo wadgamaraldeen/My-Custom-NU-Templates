@@ -1,7 +1,8 @@
-# My-Custom-NU-Templates
-My Custum Nuclei Templates
+# My-Custom-NU-Templates 
 
-With extra filtering to reduce false positives by checking for likely config keywords (API keys, secrets, DB credentials, etc.
+My cutom sensitive config files disclosure template
+
+- With extra filtering to reduce false positives by checking for likely config keywords (API keys, secrets, DB credentials, etc.
 
 ## Improvements:
 
@@ -15,7 +16,7 @@ With extra filtering to reduce false positives by checking for likely config key
 
 Author: ChatGPT and Prompt by Me : )
 
-## The Prompt :-  
+## The Prompt i used :-  
 
 
 By learning from this :- id: django-debug info: name: Django Debug Exposure author: wadgamer10 severity: low description: Detects Django Debug Toolbar or leaked config files tags: django,debug,dev http: - method: GET path: - "{{BaseURL}}/__debug__/" - "{{BaseURL}}/config" - "{{BaseURL}}/settings.py" matchers-condition: and matchers: - type: status status: - 200 - type: word words: - "Django Debug Toolbar" - "INTERNAL_IPS" - "ALLOWED_HOSTS" - "DEBUG = True" condition: or - type: word part: header words: - "text/html" - "text/x-python" 
